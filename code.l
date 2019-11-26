@@ -13,7 +13,7 @@ KURT    [kK][uU][rR][Tt]
 
 %%
 
-{KURT}     {return 0xFF;}
+{KURT}     {return 0x64;}			//0x64 = 100 in hexadecimal
 
 .       {return yytext[0];}
 %%
@@ -442,7 +442,7 @@ int getch()                            //getch function definition
 		yy_scan_string(temp->s);
 		while( temp->s[index] != 0 ) {
 			uint8_t token = yylex();
-			if(token == 0xFF) {
+			if(token == 0x64) {
 				memcpy(&temp->s[index], "vigo", 4);
 				index += 4;
 			} else {
