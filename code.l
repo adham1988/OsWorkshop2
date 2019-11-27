@@ -30,7 +30,7 @@ struct dll                    //definition of the structure double linked list
 	void *task_save(void *arg);
 	void replace_kurt(void);
 	void show_buffer_content(void);
-	void do_backup(void);
+	
 
 
 
@@ -79,10 +79,13 @@ int getch()                            //getch function definition
 		system("clear");                        //clearing the screen
 
 		//Displaying editor options
-		printf("\t\t\t\tSelect option\n");
+		printf("\n\t\t           Text editor is made by B1-203\n");
+		printf("\n");
+		printf("\t\t\t\t   Select option\n");
+		printf("\n");
 		printf("\nPress 'O' to open a file and read it into buffer.\n \tIf file does not exist create a new one\n");
-		printf("Press 'E' to edit the current file");
-		printf("Press 'X' to close the file\n");
+		printf("\nPress 'E' to edit the current file\n");
+		printf("\nPress 'X' to close the file\n");
 
 		c=getch();                            //taking user input
 		switch(c)                            //testing with switch
@@ -111,7 +114,7 @@ int getch()                            //getch function definition
 {
 	struct dll*p=(struct dll*)malloc(sizeof(struct dll));
 	struct dll *temp=q->next;
-	strcpy(p->s,t);
+	strcpy(p->s,t);						//copy t content in node s
 	p->prev=q;
 	p->next=q->next;
 
@@ -211,7 +214,7 @@ int getch()                            //getch function definition
 	printf("\nEnter the file name you want to open :");
 	scanf("%s",file);
 	getchar();
-	fflush(stdin);
+	fflush(stdin);				//clear the buffer and accept another string
 	clearlist();
 
 	fp=fopen(file,"r");                        //opening the specified file
@@ -374,25 +377,11 @@ int getch()                            //getch function definition
 		}
 	pthread_create(&threadid, NULL, replace_kurt, NULL);                     //thread replace kurt
 	pthread_create(&threadid, NULL, show_buffer_content, NULL);		 //thread show buffer content
-	pthread_create(&threadid, NULL, do_backup, NULL);			 //thread do backup
-	//show_buffer_content();
-	//replace_kurt();
-	//do_backup();
+	
 	}
 
 }
 
-	void do_backup(void){
-	struct dll *temp=head->next;
-	FILE *f=fopen(file,"w");     
-		while(temp!=NULL)
-	{
-		fprintf(f,"%s",temp->s);                    //writing the linked list contents to file
-		temp=temp->next;
-		
-	}
-	fclose(f);
-}
 
 	void show_buffer_content(void){
 	
@@ -441,9 +430,9 @@ int getch()                            //getch function definition
 		int index = 0;
 		yy_scan_string(temp->s);
 		while( temp->s[index] != 0 ) {
-			uint8_t token = yylex();
+			uint8_t token = yylex();		//uint8_t is the same as a byte. its shorthand for: a type of unsigned integer of length 8 bits
 			if(token == 0x64) {
-				memcpy(&temp->s[index], "vigo", 4);
+				memcpy(&temp->s[index], "vigo", 4);		//copy 4 bytes (vigo) into memory s[index]
 				index += 4;
 			} else {
 				index++;
@@ -464,15 +453,15 @@ int getch()                            //getch function definition
 	void editcommands(void)                        //function to print the list of editer commands
 {
 	printf("\nEditor commands\n");
-	printf("The edit menu provides the following options \n");
-	printf("C :edit the current line\n");
-	printf("P :move one line up\n");
-	printf("N :move one line down\n");
-	printf("D :delete the current line\n");
+	printf("\t\t\t\tOptions \n");
+	printf("C :Edit line\n");
+	printf("P :Move one line up\n");
+	printf("N :Move one line down\n");
+	printf("D :Delete the line\n");
 	printf("V :display the contents of the buffer\n");
-	printf("A :add a line after the line at which you are navigating\n");
-	printf("S :save changes and exit to main menu\n");
-	printf("X :exit discarding any changes\n");
-	printf("H :show the list of commands\n");
+	printf("A :Add a line\n");
+	printf("S :Save changes and exit to main menu\n");
+	printf("X :Exit discarding any changes\n");
+	printf("H :Show the list of commands\n");
 	getch();
 }
